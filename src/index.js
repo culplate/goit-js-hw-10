@@ -6,6 +6,7 @@ const loadingMes = document.querySelector('.loader');
 const errorMes = document.querySelector('.error');
 const dropdown = document.querySelector('.breed-select');
 const contentCont = document.querySelector('.cat-info');
+
 dropdown.addEventListener('change', handleSelect);
 
 fetchBreeds()
@@ -23,14 +24,26 @@ function addOptions(arr) {
     }).join("");
 }
 
-function markupContent(arr) {
-
+function markupContent(obj) {
+    const { url, breeds: { 0: { name, description, origin, life_span, temperament, wikipedia_url } } } = obj;
+        return `
+            <img class="image" src="${url}" alt="${name}">
+            <h1 class="main-title">${name}</h1>
+            <p class="description">${description}</p>
+            <h2 class="title">Info:</h2>
+            <ul class="list">
+                <li class"list-item">Origin: ${origin}</li>
+                <li class"list-item">Lifespan: ${life_span}</li>
+                <li class"list-item">Temperament: ${temperament}</li>
+            </ul>
+            <a class="link" href="${wikipedia_url}" target="_blank">Read more</a>
+        `
+    
 }
 
 function handleSelect() {
-    console.log(dropdown.value);
     fetchCatByBreed(dropdown.value)
-        .then(res => console.log(res.data[0]))
+        .then(res => contentCont.innerHTML = markupContent(res.data['0']))
         .catch(err => console.log(err.message)) // handle error!!!!
 }
 
