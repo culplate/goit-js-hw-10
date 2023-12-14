@@ -8,10 +8,12 @@ const dropdown = document.querySelector('.breed-select');
 const contentCont = document.querySelector('.cat-info');
 
 dropdown.addEventListener('change', handleSelect);
+dropdown.hidden = true;
 
 fetchBreeds()
     .then(res => {
         dropdown.insertAdjacentHTML('beforeend', addOptions(res.data));
+        dropdown.hidden = false;
     })
     .catch(err => {
         console.log(err.code) //handle error!!!!
