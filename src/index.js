@@ -1,23 +1,16 @@
 import axios from "axios";
 // auth api key
 axios.defaults.headers.common["x-api-key"] = "live_bzX9zMlIdP0XbVHw6qcJXC7BqgocB40pbl5Xvb0eXAEI2Aqcx0CzHBkdhfHhppgr";
+// TO DO:
+// 1. try putting loading and error messages handling in separate functions to clean the code
+// 2. add custom loaders
+// 3. Notiflix for error message
+// 4. add custom dropdown
 
 const loadingMes = document.querySelector('.loader');
 const errorMes = document.querySelector('.error');
 const dropdown = document.querySelector('.breed-select');
 const contentCont = document.querySelector('.cat-info');
-
-dropdown.addEventListener('change', handleSelect);
-dropdown.hidden = true;
-
-fetchBreeds()
-    .then(res => {
-        dropdown.insertAdjacentHTML('beforeend', addOptions(res.data));
-        dropdown.hidden = false;
-    })
-    .catch(err => {
-        console.log(err.code) //handle error!!!!
-    })
 
 // markup for options
 function addOptions(arr) {
@@ -40,15 +33,37 @@ function markupContent(obj) {
             </ul>
             <a class="link" href="${wikipedia_url}" target="_blank">Read more</a>
         `
-    
 }
 
 function handleSelect() {
+    errorMes.hidden = true;
+    loadingMes.hidden = false;
+    contentCont.innerHTML = '';
     fetchCatByBreed(dropdown.value)
-        .then(res => contentCont.innerHTML = markupContent(res.data['0']))
-        .catch(err => console.log(err.message)) // handle error!!!!
+        .then(res => {
+            contentCont.innerHTML = markupContent(res.data['0'])
+        })
+        .catch(err => {
+            console.log(err.message)
+            errorMes.hidden = false; // change  those to css class "isHidden"
+        }) // handle error!!!!
+        .finally(() => loadingMes.hidden = true)
 }
 
+dropdown.addEventListener('change', handleSelect);
+dropdown.hidden = true; // change those to css class "isHidden"
+errorMes.hidden = true; 
+
+fetchBreeds()
+    .then(res => {
+        dropdown.insertAdjacentHTML('beforeend', addOptions(res.data));
+        dropdown.hidden = false;
+    })
+    .catch(err => {
+        console.log(err.message)
+        errorMes.hidden = false; // change those to css class "isHidden"
+    })
+    .finally(() => loadingMes.hidden = true)
 
 // move to and then import from cat-api.js
 function fetchBreeds() {
@@ -56,5 +71,5 @@ function fetchBreeds() {
 }
 
 function fetchCatByBreed(breedId) {
-    return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`);
+    return axios.get(`https://api.thecatapi.com/v1/images/search?bresed_ids=${breedId}`);
 }
