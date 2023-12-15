@@ -34,6 +34,29 @@ img {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  color: #2d9596;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite alternate;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: -38px -6px, -14px 6px, 14px -6px;
+  }
+  33% {
+    box-shadow: -38px 6px, -14px -6px, 14px 6px;
+  }
+  66% {
+    box-shadow: -38px -6px, -14px 6px, 14px -6px;
+  }
+  100% {
+    box-shadow: -38px 6px, -14px -6px, 14px 6px;
+  }
 }
 
 .list {
@@ -43,6 +66,7 @@ img {
 
 .breed-select {
   margin: 20px 15px 5px;
+  max-width: 300px;
 }
 
 .cat-info {

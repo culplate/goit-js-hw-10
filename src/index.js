@@ -1,11 +1,11 @@
 import axios from "axios";
 import Notiflix from "notiflix";
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js"
+import SlimSelect from "slim-select";
 // auth cat api key
 axios.defaults.headers.common["x-api-key"] = "live_bzX9zMlIdP0XbVHw6qcJXC7BqgocB40pbl5Xvb0eXAEI2Aqcx0CzHBkdhfHhppgr";
 
 // TO DO:
-// 2. add custom loaders (not required)
 // 4. add custom dropdown (not required)
 
 const loadingMes = document.querySelector('.loader');
@@ -59,10 +59,14 @@ function showElement(elem) {
 
 dropdown.addEventListener('change', handleSelect);
 // fetches breeds collection and add them as options to select element
+
 fetchBreeds()
     .then(res => {
         dropdown.insertAdjacentHTML('beforeend', addOptions(res.data));
         showElement(dropdown);
+        new SlimSelect({
+            select: '#select',
+        })
     })
     .catch(err => {
         console.log(err.message)
