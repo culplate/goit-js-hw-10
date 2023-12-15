@@ -69,6 +69,7 @@ img {
 .description {
   letter-spacing: 0.02em;
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .list-item:not(:last-child) {
