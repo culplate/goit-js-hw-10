@@ -1,6 +1,7 @@
 import axios from "axios";
 import Notiflix from "notiflix";
-// auth api key
+import { fetchBreeds, fetchCatByBreed } from "./cat-api.js"
+// auth cat api key
 axios.defaults.headers.common["x-api-key"] = "live_bzX9zMlIdP0XbVHw6qcJXC7BqgocB40pbl5Xvb0eXAEI2Aqcx0CzHBkdhfHhppgr";
 
 // TO DO:
@@ -57,7 +58,7 @@ function showElement(elem) {
 }
 
 dropdown.addEventListener('change', handleSelect);
-
+// fetches breeds collection and add them as options to select element
 fetchBreeds()
     .then(res => {
         dropdown.insertAdjacentHTML('beforeend', addOptions(res.data));
@@ -69,11 +70,3 @@ fetchBreeds()
     })
     .finally(() => hideElement(loadingMes))
 
-// move to and then import from cat-api.js
-function fetchBreeds() {
-    return axios.get("https://api.thecatapi.com/v1/breeds");
-}
-
-function fetchCatByBreed(breedId) {
-    return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`);
-}
