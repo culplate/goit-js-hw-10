@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import Notiflix from "notiflix";
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js"
 // auth cat api key
